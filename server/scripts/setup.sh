@@ -45,7 +45,6 @@ if [ -d "${DEST_DIR}" ]; then
 fi
 
 ## クローン実行
-log_info "Cloning zabbix-docker repository"
 log_info "Cloning zabbix-docker repository: ${REPO_URL} -> ${DEST_DIR}"
 # Clone and log both stdout and stderr to the log file. Show result and some repo info on success.
 if git clone "${REPO_URL}" "${DEST_DIR}" 2>&1 | tee -a "${LOG_FILE}"; then
