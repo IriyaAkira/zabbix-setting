@@ -4,11 +4,12 @@ set -eu
 # ===== 固定パス定義 =====
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 SCRIPT_NAME="$(basename "${BASH_SOURCE[0]}")"
-LOG_DIR="$(cd "${SCRIPT_DIR}/logs" && pwd)"
-LOG_FILE="${LOG_DIR}/${SCRIPT_NAME%.*}.log"
+LOG_DIR="${SCRIPT_DIR}/logs"
 
 # ===== ログディレクトリ作成 =====
 mkdir -p "${LOG_DIR}"
+LOG_DIR="$(cd "${LOG_DIR}" && pwd)"
+LOG_FILE="${LOG_DIR}/${SCRIPT_NAME%.*}.log"
 
 # ===== ログ関数 =====
 log_info() {
