@@ -35,26 +35,26 @@ fi
 
 # ===== Zabbix公式docker用githubリポジトリのクローン =====
 REPO_URL="https://github.com/zabbix/zabbix-docker.git"
-DEST_DIR="${HOME}/zabbix-docker"
+DEST_DIR="${HOME}/zabbix"
 
-## 対象ディレクトリが既に存在した場合
+log_info "Start Cloning zabbix-docker repository"
 if [ -d "${DEST_DIR}" ]; then
   log_error "${DEST_DIR} already exists."
   log_info "If you want to re-clone, remove it first: rm -rf ${DEST_DIR}"
-  exit 1
+else
+    log_info "Cloning zabbix-docker repository: ${REPO_URL} -> ${DEST_DIR}"
+    if git clone "${REPO_URL}" "${DEST_DIR}" 2>&1 | tee -a "${LOG_FILE}"; then
+    log_info "git clone completed successfully."
+    log_info "Listing ${DEST_DIR} contents:"
+    ls -la "${DEST_DIR}" 2>&1 | tee -a "${LOG_FILE}"
+    else
+    log_error "git clone failed. See above for details."
+    exit 1
+    fi
 fi
 
-## クローン実行
-log_info "Cloning zabbix-docker repository: ${REPO_URL} -> ${DEST_DIR}"
-# Clone and log both stdout and stderr to the log file. Show result and some repo info on success.
-if git clone "${REPO_URL}" "${DEST_DIR}" 2>&1 | tee -a "${LOG_FILE}"; then
-  log_info "git clone completed successfully."
-  log_info "Listing ${DEST_DIR} contents:"
-  ls -la "${DEST_DIR}" 2>&1 | tee -a "${LOG_FILE}"
-else
-  log_error "git clone failed. See above for details."
-  exit 1
-fi
+# ===== 設定変更 =====
+
 
 # ===== ログ終了 =====
 log_info "===== Finished ${SCRIPT_NAME} (PID: $$) ====="
